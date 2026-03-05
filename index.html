@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AMJDigital</title>
+    <script>
+      (function () {
+        var path = window.location.pathname;
+        var target = "/amjdigital/index.html";
+
+        if (window.location.hostname.endsWith("github.io")) {
+          var segments = path.split("/").filter(Boolean);
+          if (segments.length > 0) {
+            target = "/" + segments[0] + "/amjdigital/index.html";
+          }
+        }
+
+        if (!path.endsWith("/amjdigital/index.html")) {
+          window.location.replace(target + window.location.search + window.location.hash);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <p>
+      Redirecting to AMJDigital...
+      <a href="amjdigital/index.html">Click here if you are not redirected.</a>
+    </p>
+  </body>
+</html>
