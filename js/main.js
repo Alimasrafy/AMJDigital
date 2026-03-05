@@ -1,10 +1,3 @@
-/* =======================================================
-FILE: main.js
-PURPOSE: JavaScript logic for AMJDigital website
-NOTE: Documentation comments added automatically
-NO ORIGINAL CODE MODIFIED
-DATE: 2026-03-05
-======================================================= */
 async function loadComponents(root = document) {
   const placeholders = Array.from(root.querySelectorAll("[data-component]"));
 
@@ -36,6 +29,50 @@ function setCurrentYear() {
   });
 }
 
+function initNavigationFallback() {
+  const header = document.querySelector("[data-global-header]");
+  if (!header || header.dataset.navBound === "true" || header.dataset.navFallbackBound === "true") {
+    return;
+  }
+
+  const nav = header.querySelector(".global-nav");
+  const toggle = header.querySelector(".global-nav-toggle");
+  const backdrop = header.querySelector(".global-nav-backdrop");
+
+  if (!nav || !toggle || !backdrop) {
+    return;
+  }
+
+  header.dataset.navFallbackBound = "true";
+
+  function setOpenState(isOpen) {
+    header.classList.toggle("is-menu-open", isOpen);
+    nav.classList.toggle("is-open", isOpen);
+    toggle.setAttribute("aria-expanded", String(isOpen));
+    toggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+    nav.setAttribute("aria-hidden", String(!isOpen));
+    backdrop.hidden = !isOpen;
+    backdrop.classList.toggle("is-visible", isOpen);
+    document.body.classList.toggle("has-menu-open", isOpen);
+  }
+
+  setOpenState(false);
+
+  toggle.addEventListener("click", (event) => {
+    event.preventDefault();
+    const expanded = toggle.getAttribute("aria-expanded") === "true";
+    setOpenState(!expanded);
+  });
+
+  backdrop.addEventListener("click", () => setOpenState(false));
+
+  nav.addEventListener("click", (event) => {
+    if (event.target.closest("a[href]")) {
+      setOpenState(false);
+    }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   await loadComponents();
   setCurrentYear();
@@ -54,4 +91,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   initNavigation();
   initAnimations();
   initInteractions();
+
+  // Safety net: if navigation initializer fails for any reason, keep mobile menu usable.
+  initNavigationFallback();
+  window.setTimeout(initNavigationFallback, 250);
 });

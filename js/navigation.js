@@ -1,11 +1,6 @@
-/* =======================================================
-FILE: navigation.js
-PURPOSE: JavaScript logic for AMJDigital website
-NOTE: Documentation comments added automatically
-NO ORIGINAL CODE MODIFIED
-DATE: 2026-03-05
-======================================================= */
 (function () {
+  const MAX_INIT_RETRIES = 25;
+
   function normalize(pathname) {
     return pathname
       .replace(/index\.html$/, "")
@@ -44,9 +39,28 @@ DATE: 2026-03-05
     header.classList.toggle("is-scrolled", window.scrollY > 8);
   }
 
+  function scheduleRetry() {
+    const retries = Number.parseInt(document.body.dataset.navInitRetries || "0", 10);
+    if (retries >= MAX_INIT_RETRIES) {
+      return;
+    }
+
+    document.body.dataset.navInitRetries = String(retries + 1);
+    window.setTimeout(() => {
+      if (typeof window.initNavigation === "function") {
+        window.initNavigation();
+      }
+    }, 120);
+  }
+
   window.initNavigation = function initNavigation() {
     const header = document.querySelector("[data-global-header]");
     if (!header) {
+      scheduleRetry();
+      return;
+    }
+
+    if (header.dataset.navBound === "true") {
       return;
     }
 
@@ -55,16 +69,31 @@ DATE: 2026-03-05
     const backdrop = header.querySelector(".global-nav-backdrop");
 
     if (!nav || !toggle || !backdrop) {
+      scheduleRetry();
       return;
     }
+
+    header.dataset.navBound = "true";
+    document.body.dataset.navInitRetries = "0";
 
     setActiveLinks(header);
     setStickyState(header);
     window.addEventListener("scroll", () => setStickyState(header), { passive: true });
 
+    // Ensure a clean baseline in case previous state was cached.
+    header.classList.remove("is-menu-open");
+    nav.classList.remove("is-open");
+    backdrop.classList.remove("is-visible");
+    backdrop.hidden = true;
+    document.body.classList.remove("has-menu-open");
+    nav.setAttribute("aria-hidden", "true");
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Open navigation menu");
+
     function openMobileMenu() {
       header.classList.add("is-menu-open");
       nav.classList.add("is-open");
+      nav.setAttribute("aria-hidden", "false");
       toggle.setAttribute("aria-expanded", "true");
       toggle.setAttribute("aria-label", "Close navigation menu");
       backdrop.hidden = false;
@@ -77,6 +106,7 @@ DATE: 2026-03-05
     function closeMobileMenu() {
       header.classList.remove("is-menu-open");
       nav.classList.remove("is-open");
+      nav.setAttribute("aria-hidden", "true");
       toggle.setAttribute("aria-expanded", "false");
       toggle.setAttribute("aria-label", "Open navigation menu");
       backdrop.classList.remove("is-visible");
@@ -89,14 +119,16 @@ DATE: 2026-03-05
       closeAllDropdowns(header);
     }
 
-    toggle.addEventListener("click", () => {
+    function handleMenuToggle() {
       const expanded = toggle.getAttribute("aria-expanded") === "true";
       if (expanded) {
         closeMobileMenu();
       } else {
         openMobileMenu();
       }
-    });
+    }
+
+    toggle.addEventListener("click", handleMenuToggle);
 
     backdrop.addEventListener("click", closeMobileMenu);
 

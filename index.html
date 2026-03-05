@@ -1,36 +1,51 @@
-<!-- ===================================================== -->
-<!-- FILE: index.html -->
-<!-- PURPOSE: Page or component markup for AMJDigital website -->
-<!-- NOTE: Documentation comments added automatically. -->
-<!-- NO ORIGINAL CODE MODIFIED -->
-<!-- DATE: 2026-03-05 -->
-<!-- ===================================================== -->
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function () {
+        var path = window.location.pathname;
+        var baseHref = "/";
+
+        if (window.location.hostname.endsWith("github.io")) {
+          var segments = path.split("/").filter(Boolean);
+          if (segments.length > 0 && !/\.html?$/i.test(segments[0])) {
+            baseHref = "/" + segments[0] + "/";
+            if (segments[1] === "amjdigital") {
+              baseHref += "amjdigital/";
+            }
+          }
+        } else if (path.indexOf("/amjdigital/") !== -1) {
+          baseHref = "/amjdigital/";
+        }
+
+        var base = document.createElement("base");
+        base.href = baseHref;
+        document.head.appendChild(base);
+      })();
+    </script>
     <title>Home | AMJDigital</title>
     <meta name="description" content="AMJDigital builds conversion-focused WordPress websites for home service businesses." />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="/" />
+    <link rel="canonical" href="index.html" />
     <meta property="og:title" content="Home | AMJDigital" />
     <meta
       property="og:description"
       content="AMJDigital builds conversion-focused WordPress websites for home service businesses."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="/" />
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/css/components.css" />
-    <link rel="stylesheet" href="/css/animations.css" />
-    <link rel="stylesheet" href="/css/responsive.css" />
+    <meta property="og:url" content="index.html" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
   </head>
   <body class="page home-page">
     <a class="skip-link" href="#main-content">Skip to main content</a>
 
     <!-- Global Header Component -->
-    <div data-component="/components/header.html"></div>
+    <div data-component="components/header.html"></div>
 
     <main id="main-content">
       <section class="home-hero" id="top">
@@ -47,7 +62,7 @@
             </p>
             <div class="hero-actions">
               <a class="button button-gradient" href="#final-cta">Get a Free Website Audit</a>
-              <a class="button button-outline" href="/portfolio.html">View Our Work</a>
+              <a class="button button-outline" href="portfolio.html">View Our Work</a>
             </div>
             <ul class="hero-highlights" aria-label="Key outcomes">
               <li>Fast mobile performance</li>
@@ -206,21 +221,21 @@
           </header>
 
           <div class="portfolio-grid">
-            <a class="portfolio-item reveal" data-reveal-delay="80" href="/portfolio/plumbing-website-project.html">
+            <a class="portfolio-item reveal" data-reveal-delay="80" href="portfolio/plumbing-website-project.html">
               <div class="portfolio-image portfolio-image--one" role="img" aria-label="Plumbing website project preview"></div>
               <div class="portfolio-overlay">
                 <h3>Plumbing Redesign</h3>
                 <p>Improved conversion path and local trust signals.</p>
               </div>
             </a>
-            <a class="portfolio-item reveal" data-reveal-delay="130" href="/portfolio/electrical-service-website-project.html">
+            <a class="portfolio-item reveal" data-reveal-delay="130" href="portfolio/electrical-service-website-project.html">
               <div class="portfolio-image portfolio-image--two" role="img" aria-label="Electrical service website project preview"></div>
               <div class="portfolio-overlay">
                 <h3>Electrical Service Site</h3>
                 <p>Performance-first architecture and quote-focused UX.</p>
               </div>
             </a>
-            <a class="portfolio-item reveal" data-reveal-delay="180" href="/portfolio/roofing-company-website-project.html">
+            <a class="portfolio-item reveal" data-reveal-delay="180" href="portfolio/roofing-company-website-project.html">
               <div class="portfolio-image portfolio-image--three" role="img" aria-label="Roofing website project preview"></div>
               <div class="portfolio-overlay">
                 <h3>Roofing Lead Funnel</h3>
@@ -276,18 +291,18 @@
               Book a free consultation today and discover how AMJDigital can help your home
               service business grow online.
             </p>
-            <a class="button button-gradient button-lg" href="/contact.html">Book a Free Consultation</a>
+            <a class="button button-gradient button-lg" href="contact.html">Book a Free Consultation</a>
           </div>
         </div>
       </section>
     </main>
 
     <!-- Global Footer Component -->
-    <div data-component="/components/footer.html"></div>
+    <div data-component="components/footer.html"></div>
 
-    <script src="/js/main.js" defer></script>
-    <script src="/js/navigation.js" defer></script>
-    <script src="/js/animations.js" defer></script>
-    <script src="/js/interactions.js" defer></script>
+    <script src="js/main.js" defer></script>
+    <script src="js/navigation.js" defer></script>
+    <script src="js/animations.js" defer></script>
+    <script src="js/interactions.js" defer></script>
   </body>
 </html>

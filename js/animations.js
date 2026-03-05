@@ -1,10 +1,3 @@
-/* =======================================================
-FILE: animations.js
-PURPOSE: JavaScript logic for AMJDigital website
-NOTE: Documentation comments added automatically
-NO ORIGINAL CODE MODIFIED
-DATE: 2026-03-05
-======================================================= */
 (function () {
   function initRevealAnimations() {
     const nodes = document.querySelectorAll(".reveal");

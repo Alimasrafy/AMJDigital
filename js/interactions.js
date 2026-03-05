@@ -1,10 +1,3 @@
-/* =======================================================
-FILE: interactions.js
-PURPOSE: JavaScript logic for AMJDigital website
-NOTE: Documentation comments added automatically
-NO ORIGINAL CODE MODIFIED
-DATE: 2026-03-05
-======================================================= */
 (function () {
   function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach((link) => {
@@ -80,8 +73,16 @@ DATE: 2026-03-05
     initPointerGlowCards(".case-card");
   }
 
+  function initHomeCardEffects() {
+    initPointerGlowCards(".problem-card, .service-card, .process-card, .signal-card");
+  }
+
   function initAboutCardEffects() {
     initPointerGlowCards(".about-profile-card");
+  }
+
+  function initProjectCaseCardEffects() {
+    initPointerGlowCards(".project-case-page .surface");
   }
 
   function initContactCardEffects() {
@@ -231,7 +232,9 @@ DATE: 2026-03-05
     initServicesCardEffects();
     initIndustryCardEffects();
     initPortfolioCardEffects();
+    initHomeCardEffects();
     initAboutCardEffects();
+    initProjectCaseCardEffects();
     initContactCardEffects();
     initContactForm();
     initPlumbingFeatureEffects();
