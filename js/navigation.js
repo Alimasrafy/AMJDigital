@@ -129,14 +129,6 @@
     }
 
     toggle.addEventListener("click", handleMenuToggle);
-    toggle.addEventListener(
-      "touchstart",
-      (event) => {
-        event.preventDefault();
-        handleMenuToggle();
-      },
-      { passive: false }
-    );
 
     backdrop.addEventListener("click", closeMobileMenu);
 

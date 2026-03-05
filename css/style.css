@@ -3352,6 +3352,10 @@ body.has-menu-open {
   gap: 1rem;
 }
 
+.global-nav-slot {
+  display: contents;
+}
+
 .global-brand {
   font-family: var(--font-heading);
   font-weight: 800;
@@ -3662,9 +3666,13 @@ body.has-menu-open {
 @media (max-width: 1024px) {
   .global-nav-toggle {
     display: inline-flex;
+    margin-left: auto;
+    position: relative;
+    z-index: 170;
   }
 
   .global-nav {
+    display: block;
     position: fixed;
     top: 0;
     right: 0;
@@ -3677,15 +3685,18 @@ body.has-menu-open {
     transform: translateX(105%);
     visibility: hidden;
     pointer-events: none;
-    transition: transform 0.24s ease;
+    opacity: 0;
+    transition: transform 0.24s ease, opacity 0.24s ease, visibility 0.24s ease;
     z-index: 150;
     overflow-y: auto;
   }
 
-  .global-nav.is-open {
+  .global-nav.is-open,
+  .global-header.is-menu-open .global-nav {
     transform: translateX(0);
     visibility: visible;
     pointer-events: auto;
+    opacity: 1;
   }
 
   .global-nav__list {
